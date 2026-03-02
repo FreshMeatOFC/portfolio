@@ -97,6 +97,12 @@
             100% { transform: translate(50px, 50px); }
         }
 
+        @keyframes pulse-orange {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+        }
+
         /* =========================================
            NAVBAR
            ========================================= */
@@ -125,7 +131,7 @@
         .logo span { color: var(--accent-orange); }
 
         /* =========================================
-           HERO SECTION & PROFILE
+           HERO SECTION
            ========================================= */
         .hero {
             height: 100vh;
@@ -134,60 +140,6 @@
             justify-content: center;
             text-align: center;
             position: relative;
-        }
-
-        .profile-wrapper {
-            position: relative;
-            width: 170px;
-            height: 170px;
-            margin: 0 auto 30px auto;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        /* Borda animada com gradiente */
-        .profile-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-orange), var(--primary-blue), var(--bg-card));
-            background-size: 200% 200%;
-            animation: gradientSpin 4s linear infinite;
-            z-index: -1;
-            box-shadow: 0 0 25px var(--accent-glow);
-        }
-
-        /* Fundo escuro atrás da imagem */
-        .profile-wrapper::after {
-            content: '';
-            position: absolute;
-            inset: 0px;
-            background: var(--bg-dark);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .profile-img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .profile-wrapper:hover .profile-img {
-            transform: scale(1.08) rotate(2deg);
-        }
-
-        @keyframes gradientSpin {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         .hero-content h1 {
@@ -214,7 +166,7 @@
             color: var(--text-secondary);
             margin-bottom: 40px;
             font-family: monospace;
-            min-height: 1.6em;
+            min-height: 1.6em; /* Evita pulo de layout */
         }
 
         .cursor {
@@ -264,7 +216,7 @@
         }
 
         /* =========================================
-           TÍTULOS DE SEÇÃO
+           SEÇÃO MEUS MUNDOS (Cards Horizontais)
            ========================================= */
         .section-title {
             font-family: var(--font-display);
@@ -284,11 +236,8 @@
             border-radius: 2px;
         }
 
-        /* =========================================
-           SEÇÃO MEUS MUNDOS (Cards Horizontais)
-           ========================================= */
         .worlds-section {
-            padding: 100px 0 50px 0;
+            padding: 100px 0;
         }
 
         .worlds-grid {
@@ -343,99 +292,6 @@
         }
 
         /* =========================================
-           SERVIÇOS DATA APEX
-           ========================================= */
-        .services-section {
-            padding: 50px 0;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px 30px;
-            transition: var(--transition);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .service-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .service-card.highlight-card {
-            border-color: var(--accent-orange);
-        }
-
-        .service-badge {
-            position: absolute;
-            top: -15px;
-            right: 30px;
-            background: var(--accent-orange);
-            color: #fff;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px var(--accent-glow);
-        }
-
-        .service-header h3 {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            color: var(--text-main);
-            margin-bottom: 10px;
-        }
-
-        .service-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .service-features {
-            list-style: none;
-            margin-bottom: 40px;
-            flex-grow: 1;
-        }
-
-        .service-features li {
-            margin-bottom: 15px;
-            color: var(--text-main);
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-
-        .service-features li i {
-            color: var(--accent-orange);
-            margin-top: 4px;
-        }
-
-        .service-btn {
-            text-align: center;
-            width: 100%;
-            padding: 12px 0;
-        }
-
-        /* =========================================
            PROJETOS & SKILLS (Glassmorphism Grid)
            ========================================= */
         .projects-section {
@@ -450,6 +306,7 @@
         }
 
         .project-card {
+            /* Glassmorphism Effect */
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -544,17 +401,6 @@
             .worlds-grid { flex-direction: column; }
             .world-card { max-width: 100%; }
         }
-        
-        /* Canvas por cima do fundo mas permite cliques */
-        #canvas-plane {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 50;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
@@ -563,18 +409,13 @@
         <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div class="logo">IGOR<span>.</span></div>
             <div style="padding-right: 20px;">
-                <a href="mailto:dataapex25@gmail.com" style="color: var(--text-main); text-decoration: none; font-size: 1.2rem;"><i class="fa-regular fa-envelope"></i></a>
+                <a href="mailto:contato@igor.com" style="color: var(--text-main); text-decoration: none; font-size: 1.2rem;"><i class="fa-regular fa-envelope"></i></a>
             </div>
         </div>
     </nav>
 
     <header class="hero">
         <div class="container hero-content">
-            
-            <div class="profile-wrapper">
-                <img src="https://lh3.googleusercontent.com/a/ACg8ocI2NQpB5HA_lmzybnOpdjrWH5gsrLDOXlxkwcaCaEI73YMwVTqivg=s360-c-no" alt="Igor Pimentel" class="profile-img">
-            </div>
-
             <p style="color: var(--accent-orange); font-family: monospace; margin-bottom: 15px;">Olá, meu nome é</p>
             <h1>Igor <span class="highlight">Pimentel</span></h1>
             <div class="typewriter">
@@ -604,41 +445,6 @@
                 <i class="fa-solid fa-rocket world-icon"></i>
                 <h3>Data Apex</h3>
                 <p>Fundador da Data Apex. Consultoria estratégica em tecnologia, transformando dados em decisões seguras.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="services-section container" id="servicos">
-        <h2 class="section-title reveal">Serviços Data Apex</h2>
-        
-        <div class="services-grid">
-            <div class="service-card reveal">
-                <div class="service-header">
-                    <h3>Digital Estratégico</h3>
-                    <p>Ideal para otimização inicial e presença digital corporativa.</p>
-                </div>
-                <ul class="service-features">
-                    <li><i class="fa-solid fa-check"></i> Automação de rotinas e processos</li>
-                    <li><i class="fa-solid fa-check"></i> Dashboards operacionais e gerenciais</li>
-                    <li><i class="fa-solid fa-check"></i> Criação de Landing Pages de alta conversão</li>
-                    <li><i class="fa-solid fa-check"></i> Consultoria de alinhamento tecnológico</li>
-                </ul>
-                <a href="mailto:dataapex25@gmail.com" class="cta-btn service-btn">Solicitar Orçamento</a>
-            </div>
-
-            <div class="service-card highlight-card reveal" style="transition-delay: 100ms;">
-                <div class="service-badge">MAIS BUSCADO</div>
-                <div class="service-header">
-                    <h3>Tecnologia Avançada</h3>
-                    <p>Soluções completas de ponta a ponta com inteligência e escala.</p>
-                </div>
-                <ul class="service-features">
-                    <li><i class="fa-solid fa-check"></i> Desenvolvimento de sistemas web completos</li>
-                    <li><i class="fa-solid fa-check"></i> Integração de IA e Machine Learning</li>
-                    <li><i class="fa-solid fa-check"></i> Business Intelligence avançado (BI)</li>
-                    <li><i class="fa-solid fa-check"></i> Consultoria estratégica e suporte contínuo</li>
-                </ul>
-                <a href="mailto:dataapex25@gmail.com" class="cta-btn service-btn">Solicitar Orçamento</a>
             </div>
         </div>
     </section>
@@ -705,6 +511,34 @@
                     </div>
                 </div>
 
+                <div class="project-card reveal" style="transition-delay: 400ms;">
+                    <div class="card-header">
+                        <i class="fa-solid fa-shield-halved folder-icon"></i>
+                        <a href="#" class="external-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                    <h4>Criador de APPs</h4>
+                    <p>Desenvolvimento de aplicações mobile e web, com foco em usabilidade e performance.</p>
+                    <div class="tech-stack">
+                        <span>Consultoria</span>
+                        <span>Estratégia</span>
+                        <span>Inovação</span>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" style="transition-delay: 500ms;">
+                    <div class="card-header">
+                        <i class="fa-solid fa-robot folder-icon"></i>
+                        <a href="#" class="external-link"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                    <h4>Inteligência Artificial</h4>
+                    <p>Implementação de soluções de IA para análise preditiva e automação inteligente de processos.</p>
+                    <div class="tech-stack">
+                        <span>Python</span>
+                        <span>Machine Learning</span>
+                        <span>n8n</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -716,166 +550,184 @@
                 <a href="#"><i class="fa-brands fa-linkedin"></i></a>
                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
             </div>
-            <p>Desenvolvido por Igor Pimentel | Data Apex © 2026</p>
+            <p>Desenvolvido por Igor Pimentel | Data Apex &copy; 2026</p>
         </div>
     </footer>
 
     <canvas id="canvas-plane"></canvas>
 
-    <script>
-        (function() {
-            const canvas = document.getElementById('canvas-plane');
-            const ctx = canvas.getContext('2d');
+<style>
+    /* Estilo para garantir que o canvas fique sobre o fundo, mas não bloqueie cliques */
+    #canvas-plane {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50; /* Fica acima do fundo, mas abaixo do menu (que é z-index 100) */
+        pointer-events: none; /* ESSENCIAL: Permite clicar nos botões através do avião */
+    }
+</style>
 
-            let width, height;
-            // Variáveis de Movimento
-            let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2, lastMove: Date.now(), moving: false };
-            let plane = { x: window.innerWidth / 2, y: window.innerHeight / 2, angle: 0, speed: 0.03 }; // Speed reduzido para mais "peso"
-            let lastScrollY = window.scrollY; // Para calcular a física do scroll
+<script>
+    (function() {
+        const canvas = document.getElementById('canvas-plane');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        // Variáveis de Movimento
+        let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2, lastMove: Date.now(), moving: false };
+        let plane = { x: window.innerWidth / 2, y: window.innerHeight / 2, angle: 0, speed: 0.03 }; // Speed reduzido para mais "peso"
+        let lastScrollY = window.scrollY; // Para calcular a física do scroll
+        
+        let particles = [];
+        let orbitAngle = 0;
+
+        // Configurações Visuais
+        const TRAIL_COLOR = '255, 255, 255'; 
+        const PLANE_COLOR = '#ff6b35'; 
+        const ORBIT_RADIUS = 100; 
+        const ORBIT_SPEED = 0.02; 
+
+        // Ajustar tamanho do canvas
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Rastrear Mouse
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.lastMove = Date.now();
+            mouse.moving = true;
+        });
+
+        // Classe da Partícula (Fumaça)
+        class Particle {
+            constructor(x, y, angle) {
+                this.x = x;
+                this.y = y;
+                this.life = 1; 
+                this.decay = Math.random() * 0.03 + 0.01; 
+                this.size = Math.random() * 3 + 2;
+                // Joga a fumaça para trás
+                this.vx = Math.cos(angle + Math.PI) * 2; 
+                this.vy = Math.sin(angle + Math.PI) * 2;
+            }
+
+            update() {
+                this.x += this.vx * 0.5;
+                this.y += this.vy * 0.5;
+                this.life -= this.decay;
+                this.size += 0.2; 
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${TRAIL_COLOR}, ${this.life * 0.3})`;
+                ctx.fill();
+            }
+        }
+
+        // Desenhar o Avião
+        function drawPlane(x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+
+            ctx.beginPath();
+            ctx.moveTo(15, 0); 
+            ctx.lineTo(-10, 10); 
+            ctx.lineTo(-5, 0); 
+            ctx.lineTo(-10, -10); 
+            ctx.closePath();
+
+            ctx.fillStyle = PLANE_COLOR;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = PLANE_COLOR;
+            ctx.lineJoin = "round";
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = PLANE_COLOR;
+            ctx.stroke();
+            ctx.fill();
+
+            // Cockpit
+            ctx.beginPath();
+            ctx.fillStyle = "#0a1525";
+            ctx.arc(-2, 0, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // Loop de Animação Principal
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // === FÍSICA DE SCROLL (A Mágica acontece aqui) ===
+            const currentScrollY = window.scrollY;
+            const scrollDelta = currentScrollY - lastScrollY;
+            lastScrollY = currentScrollY;
+
+            // Se rolamos a página, "empurramos" o avião na direção oposta
+            // Isso cria a sensação de que ele ficou preso no espaço da página
+            plane.y -= scrollDelta; 
+            // ==================================================
+
+            // 1. Lógica do Alvo
+            let targetX, targetY;
+            const timeSinceMove = Date.now() - mouse.lastMove;
+
+            // Detecta se parou para orbitar
+            if (timeSinceMove > 200 && Math.abs(scrollDelta) < 1) { 
+                // Só orbita se o mouse parou E não estamos rolando a página loucamente
+                mouse.moving = false;
+                orbitAngle += ORBIT_SPEED;
+                targetX = mouse.x + Math.cos(orbitAngle) * ORBIT_RADIUS;
+                targetY = mouse.y + Math.sin(orbitAngle) * ORBIT_RADIUS;
+            } else {
+                targetX = mouse.x; 
+                targetY = mouse.y;
+            }
+
+            // 2. Movimentação Suave (Lerp)
+            const dx = targetX - plane.x;
+            const dy = targetY - plane.y;
             
-            let particles = [];
-            let orbitAngle = 0;
+            plane.x += dx * plane.speed;
+            plane.y += dy * plane.speed;
 
-            // Configurações Visuais
-            const TRAIL_COLOR = '255, 255, 255'; 
-            const PLANE_COLOR = '#ff6b35'; 
-            const ORBIT_RADIUS = 100; 
-            const ORBIT_SPEED = 0.02; 
+            // 3. Rotação
+            const angle = Math.atan2(dy, dx);
+            plane.angle = angle;
 
-            // Ajustar tamanho do canvas
-            function resize() {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
+            // 4. Gerar Fumaça
+            // Solta fumaça se mover o mouse, se orbitar ou se rolar a página
+            if (Math.abs(dx) > 1 || Math.abs(dy) > 1 || !mouse.moving || Math.abs(scrollDelta) > 0) {
+                particles.push(new Particle(plane.x, plane.y, plane.angle));
             }
-            window.addEventListener('resize', resize);
-            resize();
 
-            // Rastrear Mouse
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-                mouse.lastMove = Date.now();
-                mouse.moving = true;
-            });
-
-            // Classe da Partícula (Fumaça)
-            class Particle {
-                constructor(x, y, angle) {
-                    this.x = x;
-                    this.y = y;
-                    this.life = 1; 
-                    this.decay = Math.random() * 0.03 + 0.01; 
-                    this.size = Math.random() * 3 + 2;
-                    // Joga a fumaça para trás
-                    this.vx = Math.cos(angle + Math.PI) * 2; 
-                    this.vy = Math.sin(angle + Math.PI) * 2;
-                }
-
-                update() {
-                    this.x += this.vx * 0.5;
-                    this.y += this.vy * 0.5;
-                    this.life -= this.decay;
-                    this.size += 0.2; 
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${TRAIL_COLOR}, ${this.life * 0.3})`;
-                    ctx.fill();
+            // 5. Atualizar Partículas
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
                 }
             }
 
-            // Desenhar o Avião
-            function drawPlane(x, y, angle) {
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(angle);
+            drawPlane(plane.x, plane.y, plane.angle);
+            requestAnimationFrame(animate);
+        }
 
-                ctx.beginPath();
-                ctx.moveTo(15, 0); 
-                ctx.lineTo(-10, 10); 
-                ctx.lineTo(-5, 0); 
-                ctx.lineTo(-10, -10); 
-                ctx.closePath();
-
-                ctx.fillStyle = PLANE_COLOR;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = PLANE_COLOR;
-                ctx.lineJoin = "round";
-                ctx.lineWidth = 4;
-                ctx.strokeStyle = PLANE_COLOR;
-                ctx.stroke();
-                ctx.fill();
-
-                // Cockpit
-                ctx.beginPath();
-                ctx.fillStyle = "#0a1525";
-                ctx.arc(-2, 0, 3, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.restore();
-            }
-
-            // Loop de Animação Principal
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-
-                // === FÍSICA DE SCROLL (A Mágica acontece aqui) ===
-                const currentScrollY = window.scrollY;
-                const scrollDelta = currentScrollY - lastScrollY;
-                lastScrollY = currentScrollY;
-
-                plane.y -= scrollDelta; 
-
-                // 1. Lógica do Alvo
-                let targetX, targetY;
-                const timeSinceMove = Date.now() - mouse.lastMove;
-
-                // Detecta se parou para orbitar
-                if (timeSinceMove > 200 && Math.abs(scrollDelta) < 1) { 
-                    mouse.moving = false;
-                    orbitAngle += ORBIT_SPEED;
-                    targetX = mouse.x + Math.cos(orbitAngle) * ORBIT_RADIUS;
-                    targetY = mouse.y + Math.sin(orbitAngle) * ORBIT_RADIUS;
-                } else {
-                    targetX = mouse.x; 
-                    targetY = mouse.y;
-                }
-
-                // 2. Movimentação Suave (Lerp)
-                const dx = targetX - plane.x;
-                const dy = targetY - plane.y;
-                
-                plane.x += dx * plane.speed;
-                plane.y += dy * plane.speed;
-
-                // 3. Rotação
-                const angle = Math.atan2(dy, dx);
-                plane.angle = angle;
-
-                // 4. Gerar Fumaça
-                if (Math.abs(dx) > 1 || Math.abs(dy) > 1 || !mouse.moving || Math.abs(scrollDelta) > 0) {
-                    particles.push(new Particle(plane.x, plane.y, plane.angle));
-                }
-
-                // 5. Atualizar Partículas
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
-                    if (particles[i].life <= 0) {
-                        particles.splice(i, 1);
-                        i--;
-                    }
-                }
-
-                drawPlane(plane.x, plane.y, plane.angle);
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-        })();
-    </script>
+        animate();
+    })();
+</script>
 
     <script>
         // === Typewriter Effect (Efeito de Digitação) ===
@@ -884,7 +736,9 @@
             "Safety Specialist.",
             "Data Scientist.",
             "Web Developer.",
-            "Resgatista IRATA."
+            "Resgatista IRATA.",
+            "Fundador da Data Apex.",
+            "Apaixonado por tecnologia e segurança."
         ];
         
         let phraseIndex = 0;
@@ -898,26 +752,28 @@
             if (isDeleting) {
                 textElement.textContent = currentPhrase.substring(0, charIndex - 1);
                 charIndex--;
-                typeSpeed = 50; 
+                typeSpeed = 50; // Mais rápido ao apagar
             } else {
                 textElement.textContent = currentPhrase.substring(0, charIndex + 1);
                 charIndex++;
-                typeSpeed = 100; 
+                typeSpeed = 100; // Normal ao digitar
             }
 
             if (!isDeleting && charIndex === currentPhrase.length) {
                 isDeleting = true;
-                typeSpeed = 2000; 
+                typeSpeed = 2000; // Pausa no final da frase
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500; 
+                typeSpeed = 500; // Pausa antes de começar a próxima
             }
 
             setTimeout(type, typeSpeed);
         }
 
+        // Iniciar Typewriter
         document.addEventListener('DOMContentLoaded', type);
+
 
         // === Scroll Reveal Animation (Aparecer ao rolar) ===
         const revealElements = document.querySelectorAll('.reveal');
@@ -926,13 +782,13 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target); // Para animar apenas uma vez
                 }
             });
         };
 
         const revealOptions = {
-            threshold: 0.15, 
+            threshold: 0.15, // Aciona quando 15% do elemento estiver visível
             rootMargin: "0px 0px -50px 0px"
         };
 
@@ -941,6 +797,7 @@
         revealElements.forEach(element => {
             revealObserver.observe(element);
         });
+
     </script>
 </body>
 </html>
