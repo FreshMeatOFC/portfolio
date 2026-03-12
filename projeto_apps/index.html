@@ -213,7 +213,18 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            padding: 0 50px 0 50px;
+            padding: 0 50px;
+            /* Padrão para telas grandes */
+            justify-content: center;
+            /* Garante que as colunas fiquem no meio */
+        }
+
+        @media (max-width: 768px) {
+            .app-grid {
+                padding: 0 20px;
+                /* Menos padding lateral em mobile */
+                gap: 20px;
+            }
         }
 
         .app-card {
