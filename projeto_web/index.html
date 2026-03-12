@@ -474,7 +474,7 @@
             function render() {
                 // Lerp: Suaviza o movimento para que não pareça "quebrado" no mouse wheel
                 // Quanto menor o número (0.08), mais suave. Quanto maior (1), mais instantâneo.
-                currentProgress += (targetProgress - currentProgress) * 0.08;
+                currentProgress += (targetProgress - currentProgress) * 0.1;
 
                 for (let i = 1; i < numSlides; i++) {
                     // Cálculo do Fator:
