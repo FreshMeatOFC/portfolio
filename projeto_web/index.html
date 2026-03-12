@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igor Pimentel | Web Development</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Space+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="./IMAGE/logo_transparente1.png?v=2" type="image/png">
+
+    <style>
+        /* =========================================
+           VARIAVEIS E RESET
+           ========================================= */
+        :root {
+            --bg-dark: #0a1525;
+            --bg-card: #112240;
+            --primary-blue: #1d3557;
+            --accent-orange: #ff6b35;
+            --text-main: #e6f1ff;
+            --text-secondary: #8892b0;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Oculta a barra de rolagem visualmente, mas o scroll continua existindo */
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* =========================================
+           NAVBAR (Fixa no topo)
+           ========================================= */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 21, 37, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .container-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-orange);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-icons a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav-icons a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* =========================================
+           LÓGICA DO "RASGO" FLUIDO
+           ========================================= */
+        #slider-container {
+            position: fixed;
+            /* Fica travado na tela */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            /* Deixa o scroll passar pro body */
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .half {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            /* Sombra no centro do rasgo */
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+            /* Note que removemos o transition! O JS fará a animação frame a frame */
+            will-change: transform;
+        }
+
+        /* O Clip-Path em zigue-zague */
+        .left-half {
+            clip-path: polygon(0 0, 50% 0, 48% 5%, 51% 12%, 49% 18%, 52% 25%, 48% 33%, 50% 40%, 47% 48%, 51% 55%, 49% 62%, 52% 70%, 48% 78%, 51% 85%, 49% 92%, 50% 100%, 0 100%);
+        }
+
+        .right-half {
+            clip-path: polygon(100% 0, 100% 100%, 50% 100%, 49% 92%, 51% 85%, 48% 78%, 52% 70%, 49% 62%, 51% 55%, 47% 48%, 50% 40%, 48% 33%, 52% 25%, 49% 18%, 51% 12%, 48% 5%, 50% 0);
+        }
+
+        /* =========================================
+           CONTEÚDO INTERNO DAS TELAS
+           ========================================= */
+        .content-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5%;
+            pointer-events: auto;
+            /* Reativa o clique nos botões/links do conteúdo */
+        }
+
+        /* Fundos diferentes para cada slide */
+        .slide[data-index="0"] .half {
+            background: radial-gradient(circle at center, #112240 0%, #0a1525 100%);
+        }
+
+        .slide[data-index="1"] .half {
+            background: linear-gradient(135deg, #0a1525 0%, #1d3557 100%);
+        }
+
+        .slide[data-index="2"] .half {
+            background: radial-gradient(circle at top right, #1d3557 0%, #0a1525 80%);
+        }
+
+        .slide[data-index="3"] .half {
+            background: linear-gradient(to bottom, #112240 0%, #0a1525 100%);
+        }
+
+        .slide-content-inner {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        h1 span {
+            color: var(--accent-orange);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 20px;
+            color: var(--accent-orange);
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .tech-badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 8px 20px;
+            border: 1px solid rgba(255, 107, 53, 0.4);
+            border-radius: 30px;
+            font-family: monospace;
+            color: var(--text-main);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        /* Indicador de scroll (Mouse) */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        .mouse-icon {
+            width: 24px;
+            height: 36px;
+            border: 2px solid var(--text-main);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .mouse-wheel {
+            width: 4px;
+            height: 8px;
+            background: var(--accent-orange);
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scroll 1.5s infinite;
+        }
+
+        .scroll-text {
+            font-size: 0.8rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-family: var(--font-display);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) translateX(-50%);
+            }
+
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                top: 6px;
+                opacity: 1;
+            }
+
+            100% {
+                top: 18px;
+                opacity: 0;
+            }
+        }
+
+        /* Paginação lateral */
+        .pagination {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent-orange);
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="container-nav">
+            <a href="index.html" class="logo">IGOR<span>.</span></a>
+            <div class="nav-icons">
+                <a href="index.html" title="Voltar"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="mailto:dataapex25@gmail.com" title="Contato"><i class="fa-regular fa-envelope"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pagination" id="pagination">
+    </div>
+
+    <div id="slider-container">
+
+        <div class="slide" data-index="0">
+            <template class="slide-content">
+                <div class="slide-content-inner">
+                    <p
+                        style="color: var(--accent-orange); font-family: monospace; font-size: 1.2rem; letter-spacing: 3px; margin-bottom: 10px;">
+                        FRONT-END & PERFORMANCE</p>
+                    <h1>Web <span>Development</span></h1>
+                    <p>Interfaces dinâmicas, código limpo e arquiteturas prontas para escala. Criando experiências
+                        digitais que convertem e conectam sistemas.</p>
+
+                    <div class="scroll-indicator">
+                        <div class="mouse-icon">
+                            <div class="mouse-wheel"></div>
+                        </div>
+                        <span class="scroll-text">ARRASTE PARA BAIXO</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="slide" data-index="1">
+            <template class="slide-content">
+                <div class="slide-content-inner">
+                    <i class="fa-solid fa-rocket"
+                        style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 20px;"></i>
+                    <h2>Landing Pages de Alta Conversão</h2>
+                    <p>Desenvolvimento de sites institucionais e páginas de captura desenhadas estruturalmente para
+                        carregar rápido, reter a atenção do usuário e maximizar captação de leads.</p>
+                    <div class="tech-badges">
+                        <span class="badge">HTML5</span>
+                        <span class="badge">CSS3</span>
+                        <span class="badge">JavaScript Moderno</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="slide" data-index="2">
+            <template class="slide-content">
+                <div class="slide-content-inner">
+                    <i class="fa-solid fa-chart-network"
+                        style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 20px;"></i>
+                    <h2>Sistemas Web & Dashboards</h2>
+                    <p>Muito além de sites estáticos. Construção de painéis interativos para a <b>Data Apex</b>,
+                        integrando bancos de dados ao front-end para que métricas de segurança sejam visualizadas em
+                        tempo real.</p>
+                    <div class="tech-badges">
+                        <span class="badge">Python (Flask)</span>
+                        <span class="badge">Streamlit</span>
+                        <span class="badge">Integração de APIs</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div class="slide" data-index="3">
+            <template class="slide-content">
+                <div class="slide-content-inner">
+                    <i class="fa-solid fa-wand-magic-sparkles"
+                        style="font-size: 3rem; color: var(--accent-orange); margin-bottom: 20px;"></i>
+                    <h2>Animações & Glassmorphism</h2>
+                    <p>Aplicação das mais modernas tendências de UI/UX. Interfaces imersivas, fundos dinâmicos em
+                        canvas, micro-interações responsivas e fluidez total em dispositivos móveis e desktops.</p>
+                    <div class="tech-badges">
+                        <span class="badge">Web Canvas API</span>
+                        <span class="badge">CSS Animations</span>
+                        <span class="badge">Mobile First</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const numSlides = slides.length;
+            const paginationContainer = document.getElementById('pagination');
+
+            // 1. A MÁGICA DO SCROLL NATIVO:
+            // Aumentamos a altura do documento (body) para caberem todos os slides.
+            // Isso ativa o scroll nativo (com inércia no touch e na rodinha do mouse).
+            document.body.style.height = `${numSlides * 100}vh`;
+
+            // 2. Montar as metades de cada slide
+            slides.forEach((slide, index) => {
+                const template = slide.querySelector('.slide-content');
+                const html = template.innerHTML;
+
+                slide.innerHTML = `
+                    <div class="half left-half">
+                        <div class="content-wrapper">${html}</div>
+                    </div>
+                    <div class="half right-half">
+                        <div class="content-wrapper">${html}</div>
+                    </div>
+                `;
+
+                // Empilha os slides. O Slide 0 fica no fundo.
+                slide.style.zIndex = index;
+
+                // Criação dos dots de paginação
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                paginationContainer.appendChild(dot);
+            });
+
+            // Armazena referências rápidas para as metades
+            const halves = Array.from(slides).map(slide => ({
+                left: slide.querySelector('.left-half'),
+                right: slide.querySelector('.right-half')
+            }));
+
+            // Variáveis para a interpolação suave (Lerp)
+            let currentProgress = 0; // Onde a animação está agora
+            let targetProgress = 0;  // Onde o scroll do usuário está
+
+            // Atualiza o alvo com base no scroll real da página
+            function updateScroll() {
+                // Se a janela tem 1000px e você rolou 1500px, targetProgress = 1.5
+                targetProgress = window.scrollY / window.innerHeight;
+            }
+
+            window.addEventListener('scroll', updateScroll);
+            window.addEventListener('resize', updateScroll);
+
+            // 3. O LOOP DE RENDERIZAÇÃO FRAME A FRAME
+            function render() {
+                // Lerp: Suaviza o movimento para que não pareça "quebrado" no mouse wheel
+                // Quanto menor o número (0.08), mais suave. Quanto maior (1), mais instantâneo.
+                currentProgress += (targetProgress - currentProgress) * 0.08;
+
+                for (let i = 1; i < numSlides; i++) {
+                    // Cálculo do Fator:
+                    // Se currentProgress é menor que o slide atual -> factor = 1 (Aberto)
+                    // Se currentProgress passou o slide atual -> factor = 0 (Fechado/Unido)
+                    let factor = Math.max(0, Math.min(1, i - currentProgress));
+
+                    // Transforma o fator (0 a 1) em porcentagem de tela (0 a 100vw)
+                    halves[i].left.style.transform = `translateX(${-factor * 100}vw)`;
+                    halves[i].right.style.transform = `translateX(${factor * 100}vw)`;
+                }
+
+                // Atualizar bolinhas da paginação
+                const activeIndex = Math.round(currentProgress);
+                document.querySelectorAll('.dot').forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === activeIndex);
+                });
+
+                requestAnimationFrame(render);
+            }
+
+            // Força a página a carregar no topo (resolve bug do navegador recarregar na metade)
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            window.scrollTo(0, 0);
+
+            // Inicia o Loop
+            render();
+        });
+    </script>
+</body>
+
+</html>
